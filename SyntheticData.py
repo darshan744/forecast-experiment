@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from datetime import datetime , timedelta
+from datetime import datetime  
 
 
 products = [
@@ -22,6 +22,10 @@ endDate = datetime(2025, 7, 31)
 dateRange = pd.date_range(start=startDate, end=endDate, freq='D')
 
 def seasonalMultiplier(month , seasonality):
+    """
+    Simulates a simple spike in product purchasing using seasonality.
+    like a product is most bought in a specific month or season.
+    """
     if seasonality == "flat":
         return 1.0 * np.random.normal(0 , 0.05)
     if seasonality == "spikeWinter":

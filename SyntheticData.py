@@ -1,33 +1,16 @@
 import pandas as pd
 import numpy as np
-from datetime import datetime  
+from datetime import datetime
 
-
-products = [
-    {"id": "rice", "name": "Rice", "base": 3.0, "seasonality": "flat"},
-    {"id": "paint", "name": "Paint", "base": 2.0, "seasonality": "spikeWinter"},
-    {"id": "battery", "name": "Battery", "base": 1.2, "seasonality": "spikeSummer"},
-    {"id": "detergent", "name": "Detergent", "base": 4.0, "seasonality": "random"},
-    {"id": "sugar", "name": "Sugar", "base": 2.5, "seasonality": "flat"},
-    {"id": "oil", "name": "Engine Oil", "base": 1.5, "seasonality": "spikeSummer"},
-    {"id": "jacket", "name": "Jacket Cloth", "base": 0.8, "seasonality": "spikeWinter"},
-    {"id": "water", "name": "Packaged Water", "base": 3.5, "seasonality": "spikeSummer"},
-    {"id": "soap", "name": "Soap", "base": 2.8, "seasonality": "flat"},
-    {"id": "wipes", "name": "Sanitary Wipes", "base": 2.0, "seasonality": "random"},
-]
-
-startDate = datetime(2024 , 8 , 1)
+products = pd.read_json("products.json").to_dict(orient="records")
+startDate = datetime(2024, 8, 1)
 endDate = datetime(2025, 7, 31)
+dateRange = pd.date_range(start=startDate, end=endDate, freq="D")
 
-dateRange = pd.date_range(start=startDate, end=endDate, freq='D')
 
-def seasonalMultiplier(month , seasonality):
-    """
-    Simulates a simple spike in product purchasing using seasonality.
-    like a product is most bought in a specific month or season.
-    """
+def seasonalMultiplier(month, seasonality):
     if seasonality == "flat":
-        return 1.0 * np.random.normal(0 , 0.05)
+        return 1.0 + np.random.normal(0, 0.05)
     if seasonality == "spikeWinter":
         return 1.6 if month in [11, 12, 1, 2] else 1.0 + np.random.normal(0, 0.1)
     if seasonality == "spikeSummer":
@@ -36,26 +19,47 @@ def seasonalMultiplier(month , seasonality):
         return 1.0 + np.random.normal(0, 0.3)
     return 1.0
 
+
 rows = []
 
-for product in products:
-    for date in dateRange:
-        multiplier = seasonalMultiplier(date.month , product["seasonality"])
 
-        usage = multiplier * product["base"]
-        usage += np.random.normal(0, 0.2)  # Adding some random noise to the usage
-        usage = max(0 , round(usage , 2))
+def generateUsageData():
+    for product in products:
+        for date in dateRange:
+            base = product["base_usage"]
+            min_usage = product["min_usage"]
+            rounding = product["rounding"]
 
-        rows.append({
-            "date":date.strftime("%Y-%m-%d"),
-            "product_id":product["id"],
-            "product_name": product["name"],
-            "quantity_used":usage
-        })
+            multiplier = seasonalMultiplier(date.month, product["seasonality"])
+            usage = base * multiplier * np.random.normal(1.0, 0.1)
+
+            if date.weekday() in [5, 6]:  # weekend
+                usage *= 0.8
+
+            if product.get("allow_zero_days", False) and np.random.rand() < 0.05:
+                usage = 0.0
+
+            usage = round(max(min_usage, usage), rounding)
+
+            rows.append(
+                {
+                    "date": date.strftime("%Y-%m-%d"),
+                    "product_id": product["id"],
+                    "product_name": product["name"],
+                    "quantity_used": usage,
+                }
+            )
+
+    df = pd.DataFrame(rows)
+    df["date"] = pd.to_datetime(df["date"])
+    df.to_csv("product_usage.csv", index=False)
+    print("✅ Product usage data generated and saved to 'product_usage.csv'.")
 
 
+def writeToJson():
+    df = pd.DataFrame(products)
+    df["allow_zero_days"] = df["allow_zero_days"].fillna(False)
+    df.to_json("products.json", orient="records")
 
-df = pd.DataFrame(rows)
-df["date"] = pd.to_datetime(df["date"])
-df.to_csv("product_usage.csv", index=False)
-print("Product usage data generated and saved to 'product_usage.csv'.")
+
+generateUsageData()

@@ -1,0 +1,119 @@
+[
+  {
+    "id": "rice",
+    "name": "Rice",
+    "base_usage": 2.0,
+    "min_usage": 0.5,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  },
+  {
+    "id": "oil",
+    "name": "Oil",
+    "base_usage": 0.3,
+    "min_usage": 0.05,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  },
+  {
+    "id": "milk",
+    "name": "Milk",
+    "base_usage": 4.0,
+    "min_usage": 1.0,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  },
+  {
+    "id": "paneer",
+    "name": "Paneer",
+    "base_usage": 1.5,
+    "min_usage": 0.0,
+    "rounding": 2,
+    "seasonality": "spikeWinter",
+    "allow_zero_days": true
+  },
+  {
+    "id": "curd",
+    "name": "Curd",
+    "base_usage": 2.5,
+    "min_usage": 0.3,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  },
+  {
+    "id": "flour",
+    "name": "Wheat Flour",
+    "base_usage": 2.0,
+    "min_usage": 0.5,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  },
+  {
+    "id": "sugar",
+    "name": "Sugar",
+    "base_usage": 1.0,
+    "min_usage": 0.2,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  },
+  {
+    "id": "salt",
+    "name": "Salt",
+    "base_usage": 0.15,
+    "min_usage": 0.02,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  },
+  {
+    "id": "turmeric",
+    "name": "Turmeric",
+    "base_usage": 0.05,
+    "min_usage": 0.0,
+    "rounding": 2,
+    "seasonality": "random",
+    "allow_zero_days": true
+  },
+  {
+    "id": "chilli",
+    "name": "Chilli Powder",
+    "base_usage": 0.08,
+    "min_usage": 0.01,
+    "rounding": 2,
+    "seasonality": "random",
+    "allow_zero_days": true
+  },
+  {
+    "id": "potatoes",
+    "name": "Potatoes",
+    "base_usage": 3.0,
+    "min_usage": 0.5,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  },
+  {
+    "id": "onions",
+    "name": "Onions",
+    "base_usage": 2.5,
+    "min_usage": 0.3,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  },
+  {
+    "id": "tomatoes",
+    "name": "Tomatoes",
+    "base_usage": 2.2,
+    "min_usage": 0.3,
+    "rounding": 2,
+    "seasonality": "flat",
+    "allow_zero_days": false
+  }
+]

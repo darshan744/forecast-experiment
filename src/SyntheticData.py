@@ -55,11 +55,4 @@ def generateUsageData():
     df.to_csv("product_usage.csv", index=False)
     print("✅ Product usage data generated and saved to 'product_usage.csv'.")
 
-
-def writeToJson():
-    df = pd.DataFrame(products)
-    df["allow_zero_days"] = df["allow_zero_days"].fillna(False)
-    df.to_json("products.json", orient="records")
-
-
 generateUsageData()
